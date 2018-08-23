@@ -88,13 +88,19 @@ Source________________________________________________Encode<br/>" & vbCrLf)
 
             InputFiles = e.Data.GetData(DataFormats.FileDrop)
 
-            Dim fi As IO.FileInfo
-            Dim InputFilesName(InputFiles.GetUpperBound(0)) As String
+            'Dim fi As IO.FileInfo
+            Dim LstInputFilesName As New List(Of String)()
 
             For index = 0 To InputFiles.GetUpperBound(0)
-                fi = New IO.FileInfo(InputFiles(index))
-                InputFilesName(index) = fi.Name
+                'fi = New IO.FileInfo(InputFiles(index))
+                'InputFilesName(index) = fi.Name
+                If (IO.Path.GetExtension(InputFiles(index)).ToLower = ".png") Then
+                    LstInputFilesName.Add(IO.Path.GetFileNameWithoutExtension(InputFiles(index)))
+                End If
             Next
+
+            Dim InputFilesName(LstInputFilesName.Count - 1) As String
+            LstInputFilesName.CopyTo(InputFilesName)
 
             Dim InputFrames(InputFilesName.GetUpperBound(0)) As String
             For index = 0 To InputFilesName.GetUpperBound(0)
