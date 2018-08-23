@@ -26,9 +26,14 @@
         For index = 0 To len
             StrInputFrames(index) = LstBoxFrames.Items(index).ToString
         Next
-        'Dim IntInputFrames(len) As Integer
-        'IntInputFrames = Str2Int(StrInputFrames)
-        Array.Sort(StrInputFrames)
+        Dim TempArr(len) As Integer
+        For index = 0 To len
+            TempArr(index) = Convert.ToInt32(StrInputFrames(index))
+        Next
+        Array.Sort(TempArr)
+        For index = 0 To len
+            StrInputFrames(index) = Convert.ToString(TempArr(index))
+        Next
         For index = 0 To StrInputFrames.GetUpperBound(0)
             StrInputFrames(index) = TxtBoxDate.Text & "/" & StrInputFrames(index)
         Next
