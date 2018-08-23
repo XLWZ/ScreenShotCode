@@ -73,6 +73,51 @@ Source________________________________________________Encode<br/>" & vbCrLf)
             e.Handled = True
         End If
     End Sub
+
+    Private Sub LstBoxFrames_DragEnter(sender As Object, e As DragEventArgs) Handles LstBoxFrames.DragEnter
+        If (e.Data.GetDataPresent(DataFormats.FileDrop)) Then
+            e.Effect = DragDropEffects.Link
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub LstBoxFrames_DragDrop(sender As Object, e As DragEventArgs) Handles LstBoxFrames.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            Dim InputFiles() As String
+
+            InputFiles = e.Data.GetData(DataFormats.FileDrop)
+
+            Dim fi As IO.FileInfo
+            Dim InputFilesName(InputFiles.GetUpperBound(0)) As String
+
+            For index = 0 To InputFiles.GetUpperBound(0)
+                fi = New IO.FileInfo(InputFiles(index))
+                InputFilesName(index) = fi.Name
+            Next
+
+            Dim InputFrames(InputFilesName.GetUpperBound(0)) As String
+            For index = 0 To InputFilesName.GetUpperBound(0)
+                InputFrames(index) = System.Text.RegularExpressions.Regex.Replace(InputFilesName(index), "[^0-9]", "")
+            Next
+
+            Dim LstOutputFrames As New List(Of String)()
+            For Each eachFrames As String In InputFrames
+                If Not LstOutputFrames.Contains(eachFrames) Then
+                    LstOutputFrames.Add(eachFrames)
+                End If
+            Next
+
+            Dim OutputFrames(LstOutputFrames.Count - 1) As String
+            LstOutputFrames.CopyTo(OutputFrames)
+            For index = 0 To OutputFrames.GetUpperBound(0)
+                LstBoxFrames.Items.Add(OutputFrames(index))
+            Next
+
+        End If
+    End Sub
 End Class
+
+
 
 
