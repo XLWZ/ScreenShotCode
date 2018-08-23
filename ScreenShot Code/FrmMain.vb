@@ -68,6 +68,11 @@ Source________________________________________________Encode<br/>" & vbCrLf)
         Next
     End Sub
 
+    Private Sub TxtBoxFrameInput_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtBoxFrameInput.KeyPress
+        If ((e.KeyChar <> vbBack) And Not Char.IsDigit(e.KeyChar)) Then
+            e.Handled = True
+        End If
+    End Sub
 End Class
 
 
