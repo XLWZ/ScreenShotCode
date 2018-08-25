@@ -21,19 +21,19 @@
         If (TxtBoxCodeOutput.Text IsNot "") Then
             TxtBoxCodeOutput.Clear()
         End If
-        Dim len = LstBoxFrames.Items.Count - 1
-        Dim StrInputFrames(len) As String
-        For index = 0 To len
-            StrInputFrames(index) = LstBoxFrames.Items(index).ToString
-        Next
-        Dim TempArr(len) As Integer
-        For index = 0 To len
+
+        Dim StrInputFrames() As String = LstBoxFrames.Items.Cast(Of String)().ToArray()
+
+        Dim TempArr(StrInputFrames.GetUpperBound(0)) As Integer
+
+        For index = 0 To TempArr.GetUpperBound(0)
             TempArr(index) = Convert.ToInt32(StrInputFrames(index))
         Next
         Array.Sort(TempArr)
-        For index = 0 To len
+        For index = 0 To StrInputFrames.GetUpperBound(0)
             StrInputFrames(index) = Convert.ToString(TempArr(index))
         Next
+
         For index = 0 To StrInputFrames.GetUpperBound(0)
             StrInputFrames(index) = TxtBoxDate.Text & "/" & StrInputFrames(index)
         Next
@@ -44,24 +44,24 @@
 
     Private Sub HTML(ByVal InputFrames() As String)
         TxtBoxCodeOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)<br/>" & vbCrLf & "Source________________________________________________Encode<br/>" & vbCrLf)
-        For index = 0 To InputFrames.GetUpperBound(0)
-            TxtBoxCodeOutput.AppendText("<a href=""http://img.2222.moe/images/" & InputFrames(index) & ".png""><img src=""http://img.2222.moe/images/" & InputFrames(index) & "s.png""></a> <a href=""http://img.2222.moe/images/" & InputFrames(index) & "v.png""><img src=""http://img.2222.moe/images/" & InputFrames(index) & "s.png""></a><br/>" & vbCrLf)
+        For Each eachFrame In InputFrames
+            TxtBoxCodeOutput.AppendText("<a href=""http://img.2222.moe/images/" & eachFrame & ".png""><img src=""http://img.2222.moe/images/" & eachFrame & "s.png""></a> <a href=""http://img.2222.moe/images/" & eachFrame & "v.png""><img src=""http://img.2222.moe/images/" & eachFrame & "s.png""></a><br/>" & vbCrLf)
         Next
         TxtBoxCodeOutput.AppendText(vbCrLf & vbCrLf)
     End Sub
 
     Private Sub BBCode(ByVal InputFrames() As String)
         TxtBoxCodeOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)" & vbCrLf & "Source________________________________________________Encode" & vbCrLf)
-        For index = 0 To InputFrames.GetUpperBound(0)
-            TxtBoxCodeOutput.AppendText("[URL=http://img.2222.moe/images/" & InputFrames(index) & ".png][IMG]http://img.2222.moe/images/" & InputFrames(index) & "s.png[/IMG][/URL] [URL=http://img.2222.moe/images/" & InputFrames(index) & "v.png][IMG]http://img.2222.moe/images/" & InputFrames(index) & "s.png[/IMG][/URL]" & vbCrLf)
+        For Each eachFrame In InputFrames
+            TxtBoxCodeOutput.AppendText("[URL=http://img.2222.moe/images/" & eachFrame & ".png][IMG]http://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL] [URL=http://img.2222.moe/images/" & eachFrame & "v.png][IMG]http://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL]" & vbCrLf)
         Next
         TxtBoxCodeOutput.AppendText(vbCrLf & vbCrLf)
     End Sub
 
     Private Sub MarkDown(ByVal InputFrames() As String)
         TxtBoxCodeOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)" & vbCrLf & "Source________________________________________________Encode" & vbCrLf)
-        For index = 0 To InputFrames.GetUpperBound(0)
-            TxtBoxCodeOutput.AppendText("[![](http://img.2222.moe/images/" & InputFrames(index) & "s.png)](http://img.2222.moe/images/" & InputFrames(index) & ".png) [![](http://img.2222.moe/images/" & InputFrames(index) & "s.png)](http://img.2222.moe/images/" & InputFrames(index) & "v.png)" & vbCrLf)
+        For Each eachFrame In InputFrames
+            TxtBoxCodeOutput.AppendText("[![](http://img.2222.moe/images/" & eachFrame & "s.png)](http://img.2222.moe/images/" & eachFrame & ".png) [![](http://img.2222.moe/images/" & eachFrame & "s.png)](http://img.2222.moe/images/" & eachFrame & "v.png)" & vbCrLf)
         Next
     End Sub
 
@@ -85,36 +85,12 @@
 
             InputFiles = e.Data.GetData(DataFormats.FileDrop)
 
-            'Dim fi As IO.FileInfo
-            Dim LstInputFilesName As New List(Of String)()
-
-            For index = 0 To InputFiles.GetUpperBound(0)
-                'fi = New IO.FileInfo(InputFiles(index))
-                'InputFilesName(index) = fi.Name
-                If (IO.Path.GetExtension(InputFiles(index)).ToLower = ".png") Then
-                    LstInputFilesName.Add(IO.Path.GetFileNameWithoutExtension(InputFiles(index)))
+            For Each eachFile As String In InputFiles
+                If (IO.Path.GetExtension(eachFile).ToLower = ".png") Then
+                    If Not LstBoxFrames.Items.Contains(System.Text.RegularExpressions.Regex.Replace(IO.Path.GetFileNameWithoutExtension(eachFile), "[^0-9]", "")) Then
+                        LstBoxFrames.Items.Add(System.Text.RegularExpressions.Regex.Replace(IO.Path.GetFileNameWithoutExtension(eachFile), "[^0-9]", ""))
+                    End If
                 End If
-            Next
-
-            Dim InputFilesName(LstInputFilesName.Count - 1) As String
-            LstInputFilesName.CopyTo(InputFilesName)
-
-            Dim InputFrames(InputFilesName.GetUpperBound(0)) As String
-            For index = 0 To InputFilesName.GetUpperBound(0)
-                InputFrames(index) = System.Text.RegularExpressions.Regex.Replace(InputFilesName(index), "[^0-9]", "")
-            Next
-
-            Dim LstOutputFrames As New List(Of String)()
-            For Each eachFrames As String In InputFrames
-                If Not LstOutputFrames.Contains(eachFrames) Then
-                    LstOutputFrames.Add(eachFrames)
-                End If
-            Next
-
-            Dim OutputFrames(LstOutputFrames.Count - 1) As String
-            LstOutputFrames.CopyTo(OutputFrames)
-            For index = 0 To OutputFrames.GetUpperBound(0)
-                LstBoxFrames.Items.Add(OutputFrames(index))
             Next
 
         End If
