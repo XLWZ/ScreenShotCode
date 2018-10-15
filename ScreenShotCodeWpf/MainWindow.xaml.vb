@@ -61,7 +61,7 @@
     Private Sub HTML(ByVal InputFrames() As String)
         TxtBoxOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)<br/>" & vbCrLf & "Source________________________________________________Encode<br/>" & vbCrLf)
         For Each eachFrame In InputFrames
-            TxtBoxOutput.AppendText("<a href=""http://img.2222.moe/images/" & eachFrame & ".png""><img src=""http://img.2222.moe/images/" & eachFrame & "s.png""></a> <a href=""http://img.2222.moe/images/" & eachFrame & "v.png""><img src=""http://img.2222.moe/images/" & eachFrame & "s.png""></a><br/>" & vbCrLf)
+            TxtBoxOutput.AppendText("<a href=""https://img.2222.moe/images/" & eachFrame & ".png""><img src=""https://img.2222.moe/images/" & eachFrame & "s.png""></a> <a href=""https://img.2222.moe/images/" & eachFrame & "v.png""><img src=""https://img.2222.moe/images/" & eachFrame & "s.png""></a><br/>" & vbCrLf)
         Next
         TxtBoxOutput.AppendText(vbCrLf & vbCrLf)
     End Sub
@@ -69,7 +69,7 @@
     Private Sub BBCode(ByVal InputFrames() As String)
         TxtBoxOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)" & vbCrLf & "Source________________________________________________Encode" & vbCrLf)
         For Each eachFrame In InputFrames
-            TxtBoxOutput.AppendText("[URL=http://img.2222.moe/images/" & eachFrame & ".png][IMG]http://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL] [URL=http://img.2222.moe/images/" & eachFrame & "v.png][IMG]http://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL]" & vbCrLf)
+            TxtBoxOutput.AppendText("[URL=https://img.2222.moe/images/" & eachFrame & ".png][IMG]https://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL] [URL=https://img.2222.moe/images/" & eachFrame & "v.png][IMG]https://img.2222.moe/images/" & eachFrame & "s.png[/IMG][/URL]" & vbCrLf)
         Next
         TxtBoxOutput.AppendText(vbCrLf & vbCrLf)
     End Sub
@@ -77,7 +77,7 @@
     Private Sub MarkDown(ByVal InputFrames() As String)
         TxtBoxOutput.AppendText("Comparison (right click on the image and open it in a new tab to see the full-size one)" & vbCrLf & "Source________________________________________________Encode" & vbCrLf)
         For Each eachFrame In InputFrames
-            TxtBoxOutput.AppendText("[![](http://img.2222.moe/images/" & eachFrame & "s.png)](http://img.2222.moe/images/" & eachFrame & ".png) [![](http://img.2222.moe/images/" & eachFrame & "s.png)](http://img.2222.moe/images/" & eachFrame & "v.png)" & vbCrLf)
+            TxtBoxOutput.AppendText("[![](https://img.2222.moe/images/" & eachFrame & "s.png)](https://img.2222.moe/images/" & eachFrame & ".png) [![](https://img.2222.moe/images/" & eachFrame & "s.png)](https://img.2222.moe/images/" & eachFrame & "v.png)" & vbCrLf)
         Next
     End Sub
 
